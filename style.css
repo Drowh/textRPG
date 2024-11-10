@@ -1,0 +1,244 @@
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #1c1c1c;
+    color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    margin: 30px auto;
+    width: 460px;
+    background-color: #2d2d2d;
+    border: 2px solid #00ff99;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+}
+
+/* Заголовок игры */
+.game-title {
+    font-size: 24px;
+    color: #00ff99;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+}
+
+/* Стили для статистики */
+.stats p {
+    font-size: 14px;
+    color: #f4f4f4;
+    margin: 8px 0;
+}
+
+.stats span {
+    color: #00ff99;
+}
+
+.location span {
+    color: #12fdff;
+}
+
+
+.inventory {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.item {
+    text-align: center;
+    display: flex;
+    max-width: 100%;
+    width: 60px;
+    flex-direction: column;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+.item img {
+    width: 25px; 
+    height: 25px;
+}
+
+.item:hover {
+    transform: scale(1.05);
+}
+
+.item span {
+    margin-top: 5px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.item:hover {
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.6);
+    transform: scale(1.05);
+}
+
+
+
+/* Бары здоровья и уровня */
+.bar-container {
+    background-color: #444;
+    border-radius: 10px;
+    width: 100%;
+    height: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px #000;
+    position: relative; /* Нужно для абсолютного позиционирования текста */
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.health-bar .bar-fill {
+    background-color: #ff4d4d;
+}
+
+.level-bar .bar-fill {
+    background-color: #7170eb;
+}
+
+.bar-container .bar-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff; /* Цвет текста */
+    font-weight: bold;
+    font-size: 12px; /* Размер текста */
+    pointer-events: none; /* Игнорировать клики по тексту */
+}
+
+
+/* Кнопки действий */
+.actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.action-button {
+    max-width: 100%;
+    width: 150px;
+    background-color: #333;
+    color: #f4f4f4;
+    border: 2px solid #00ff99;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px #00ff99;
+}
+
+.action-button:hover {
+    background-color: #00ff99;
+    color: #333;
+    box-shadow: 0 0 15px #00ff99, 0 0 25px #00ff99;
+}
+
+.attack {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 5px #ff4d4d;
+}
+
+.attack:hover {
+    background-color: #ff4d4d;
+    color: #2d2d2d;
+    box-shadow: 0 0 15px #ff4d4d, 0 0 25px #ff4d4d;
+}
+
+.defend {
+    border-color: #ffd700;
+    box-shadow: 0 0 5px #ffd700;
+}
+
+.defend:hover {
+    background-color: #ffd700;
+    color: #333;
+    box-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700;
+}
+
+.use-item {
+    border-color: #00ffff;
+    box-shadow: 0 0 5px #00fff2;
+}
+
+.use-item:hover {
+    background-color: #00ffea;
+    color: #333;
+    box-shadow: 0 0 15px #00d5ff, 0 0 25px #00ffee;
+}
+
+
+/* Кнопки локаций */
+.location {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.location p {
+    font-size: 14px;
+    
+}
+
+.location-button {
+    background-color: #2d2d2d;
+    color: #00ff99;
+    border: 2px solid #00ff99;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.location-button:hover {
+    background-color: #00ff99;
+    color: #2d2d2d;
+    box-shadow: 0 0 15px #00ff99, 0 0 25px #00ff99;
+}
+
+/* Лог событий */
+.log {
+    background-color: #222;
+    color: #bbb;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    height: 160px;
+    overflow-y: auto;
+    font-size: 12px;
+    box-shadow: inset 0 0 10px #000;
+    text-align: start;
+}

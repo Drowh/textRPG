@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Текстовая RPG Игра</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1 class="game-title">Dragon Combat Legends</h1>
+        <div class="stats">
+            <p>Имя: <span>Арнольд</span></p>
+            <div class="bar-container level-bar">
+                <div class="bar-fill" style="width: 80%;"></div>
+                <span class="bar-text">Уровень: 55</span> <!-- Текст по центру полосы -->
+            </div>
+            <div class="bar-container health-bar">
+                <div class="bar-fill" style="width: 60%;"></div>
+                <span class="bar-text">Здоровье: 150/280</span> <!-- Текст по центру полосы -->
+            </div>
+            <p>Сила: <span>150</span></p>
+            <p>Защита: <span>200</span></p>
+            <p>Инвентарь:</p>
+            <div class="inventory">
+                <div class="item">
+                    <img src="/img/health_potion.png" alt="Зелье здоровья">
+                    <span>Зелье здоровья</span>
+                </div>
+                <div class="item">
+                    <img src="/img/strength_potion.png" alt="Зелье силы">
+                    <span>Зелье силы</span>
+                </div>
+                <div class="item">
+                    <img src="/img/defense_potion.png" alt="Зелье защиты">
+                    <span>Зелье защиты</span>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <div class="actions">
+            <button class="action-button attack">Атаковать</button>
+            <button class="action-button defend">Защищаться</button>
+            <button class="action-button use-item">Использовать предмет</button>
+        </div>
+
+        <div class="location">
+            <p>Текущая локация: <span class="location-name">Деревня</span></p>
+            <button class="location-button">Идти в лес</button>
+            <button class="location-button">Идти в подземелье</button>
+            <button class="location-button">Вернуться в деревню</button>
+        </div>
+
+        <div class="log">
+            <p>Вы готовы к бою...</p>
+        </div>
+    </div>
+</body>
+
+</html>
