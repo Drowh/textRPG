@@ -23,6 +23,7 @@ body {
     padding: 20px;
     text-align: center;
     box-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+    background-image: url(./img/village.jpg);
 }
 
 /* Заголовок игры */
@@ -39,6 +40,27 @@ body {
     color: #f4f4f4;
     margin: 8px 0;
 }
+
+.stats {
+    position: relative;
+}
+
+.main-char {
+position: absolute;
+    width: 75px;
+    left: 16%;
+    top: 32%;
+    border: solid 2px #00ffea;
+}
+
+.dragon {
+    position: absolute;
+        width: 75px;
+        right: 16%;
+        top: 32%;
+        border: solid 2px #00ffea;
+    }
+
 
 .stats span {
     color: #00ff99;
@@ -72,7 +94,7 @@ body {
 }
 
 .item img {
-    width: 25px; 
+    width: 25px;
     height: 25px;
 }
 
@@ -103,7 +125,8 @@ body {
     margin-bottom: 10px;
     overflow: hidden;
     box-shadow: inset 0 0 5px #000;
-    position: relative; /* Нужно для абсолютного позиционирования текста */
+    position: relative;
+    /* Нужно для абсолютного позиционирования текста */
 }
 
 .bar-fill {
@@ -129,10 +152,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff; /* Цвет текста */
+    color: #fff;
+    /* Цвет текста */
     font-weight: bold;
-    font-size: 12px; /* Размер текста */
-    pointer-events: none; /* Игнорировать клики по тексту */
+    font-size: 12px;
+    /* Размер текста */
+    pointer-events: none;
+    /* Игнорировать клики по тексту */
 }
 
 
@@ -208,7 +234,7 @@ body {
 
 .location p {
     font-size: 14px;
-    
+
 }
 
 .location-button {
