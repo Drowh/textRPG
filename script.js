@@ -1,11 +1,11 @@
 const character = {
     name: "Арнольд",   // Имя персонажа, отображаемое на экране
-    health: 50,        // Текущее здоровье персонажа
+    health: 100,        // Текущее здоровье персонажа
     maxHealth: 100,    // Максимальное здоровье, которое может быть у персонажа
-    strength: 10,      // Сила, которая будет использоваться для атаки
-    defense: 5,        // Защита, которая уменьшает урон от врагов
+    strength: 22,      // Сила, которая будет использоваться для атаки
+    defense: 16,        // Защита, которая уменьшает урон от врагов
     level: 1,          // Текущий уровень персонажа, начинаем с 1
-    experience: 20,    // Начальный опыт персонажа, который он будет зарабатывать в бою
+    experience: 0,    // Начальный опыт персонажа, который он будет зарабатывать в бою
     inventory: []      // Пустой инвентарь, в который мы будем добавлять предметы
 };
 
@@ -23,37 +23,139 @@ function updateCharacterStats() {
 // Обновляем интерфейс при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => {
     updateCharacterStats();
+
 });
 
 
-
-
-
-
-
-
-
-// Враги
+// Враги          Запущу два слабых в лес, а сильного в данж) чтоб пройти в данж, нужно много убить в лесу слабых и поднять много уровней ))
 const enemies = {
     dragon: {
         name: "dragon",
         health: 60,
-        strength: 40,
-        defense: 20,
+        strength: 20,
+        defense: 10,
         experience: 20 // Опыт за убийство
     },
     chimera: {
         name: "chimera",
         health: 80,
-        strength: 45,
-        defense: 30,
+        strength: 25,
+        defense: 20,
         experience: 30,
     },
     ouroboros: {
         name: "ouroboros",
-        health: 100,
+        health: 200,
         strength: 55,
         defense: 40,
         experience: 50,
     },
 }
+
+
+// Функция для атаки врага
+function attackEnemy(enemy) {
+    // Урон, который наносит персонаж, с учётом защиты врага
+    const damageToEnemy = Math.max(character.strength - enemy.defense, 0); // нулик чтоб не было отрицательного урона, если защиты больше чем силы
+    enemy.health -= damageToEnemy;
+
+    logAction(`Вы нанесли ${damageToEnemy} урона ${enemy.name}. У ${enemy.name} осталось ${enemy.health > 0 ? enemy.health : 0} здоровья.`);
+
+    // Если здоровье врага опускается до 0 или ниже, он побеждён
+    if (enemy.health <= 0) {
+        logAction(`${enemy.name} побеждён!`);
+        character.gainExperience(enemy.experience); // получение экспы пропишу ниже
+    } else {
+        // Если враг не побеждён, он наносит ответный удар
+        counterAttack(enemy);
+    }
+
+    updateCharacterStats();
+}
+
+
+// Функция для ответного удара врага
+function counterAttack(enemy) {
+    const damageToCharacter = Math.max(enemy.strength - character.defense, 0);
+    character.health -= damageToCharacter;
+
+    logAction(`${enemy.name} наносит вам ${damageToCharacter} урона. У вас осталось ${character.health > 0 ? character.health : 0} здоровья.`);
+
+    // Проверка, что здоровье персонажа не упало ниже 0
+    if (character.health <= 0) {
+        character.health = 0; // Устанавливаем здоровье в 0, если оно стало отрицательным
+        logAction("Вы побеждены!");
+        // Здесь можно добавить логику для окончания игры или перезапуска
+    }
+
+    updateCharacterStats();
+}
+
+
+// Журнал действий
+function logAction(message) {
+    // Находим элемент .log в HTML
+    const logContainer = document.querySelector('.log');
+
+    // Создаём новый элемент параграфа для записи в лог
+    const newLogEntry = document.createElement('p');
+    newLogEntry.textContent = message; // Устанавливаем текст новой записи
+
+    // Добавляем новый параграф в logContainer
+    logContainer.appendChild(newLogEntry);
+
+    // Автоматически прокручиваем лог вниз, чтобы видеть последние действия
+    logContainer.scrollTop = logContainer.scrollHeight;
+}
+
+
+// Переменная для хранения текущего врага
+let currentEnemy = null;
+
+// Функция смены локации
+function changeLocation(location) {
+    const gameContainer = document.querySelector('.game-container');
+    const enemyIconElements = {
+        dragon: document.querySelector('.dragon'),
+        chimera: document.querySelector('.chimera'),
+        ouroboros: document.querySelector('.ouroboros')
+    };
+
+    // Скрываем все иконки врагов
+    Object.values(enemyIconElements).forEach(icon => icon.style.display = 'none');
+
+    // Определяем действия в зависимости от локации
+    if (location === 'village') {
+        gameContainer.style.backgroundImage = 'url(./img/village.jpg)';
+        logAction("Вы находитесь в деревне. Здесь безопасно.");
+        currentEnemy = null; // Нет врагов в деревне
+    } else if (location === 'forest') {
+        gameContainer.style.backgroundImage = 'url(./img/forest.jpg)';
+        logAction("Вы вошли в лес. На вас напал враг!");
+        
+        // Выбираем случайного врага в лесу (Дракон или Химера)
+        currentEnemy = Math.random() < 0.5 ? enemies.dragon : enemies.chimera;
+        logAction(`На вас напал ${currentEnemy.name}!`);
+
+        // Показываем иконку соответствующего врага
+        enemyIconElements[currentEnemy.name.toLowerCase()].style.display = 'block';
+        attackEnemy(currentEnemy);
+    } else if (location === 'dungeon') {
+        gameContainer.style.backgroundImage = 'url(./img/dungeon.jpg)';
+        logAction("Вы вошли в подземелье. На вас напал враг!");
+
+        // В подземелье всегда Уроборос
+        currentEnemy = enemies.ouroboros;
+        logAction(`На вас напал ${currentEnemy.name}!`);
+
+        // Показываем иконку Уробороса
+        enemyIconElements[currentEnemy.name.toLowerCase()].style.display = 'block';
+        attackEnemy(currentEnemy);
+    }
+}
+
+
+
+
+
+

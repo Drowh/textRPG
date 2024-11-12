@@ -46,20 +46,24 @@ body {
 }
 
 .main-char {
-position: absolute;
+    position: absolute;
     width: 75px;
+    height: 80px;
     left: 16%;
     top: 32%;
     border: solid 2px #00ffea;
 }
 
-.dragon {
+
+.dragon, .chimera, .ouroboros {
+    display: none; 
     position: absolute;
-        width: 75px;
-        right: 16%;
-        top: 32%;
-        border: solid 2px #00ffea;
-    }
+    width: 75px;
+    height: 80px;
+    right: 16%;
+    top: 32%;
+    border: solid 2px #00ffea;
+}
 
 
 .stats span {

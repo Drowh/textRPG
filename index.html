@@ -15,11 +15,11 @@
             <p>Имя: <span>Арнольд</span></p>
             <div class="bar-container level-bar">
                 <div class="bar-fill" style="width: 80%;"></div>
-                <span class="bar-text">Уровень: 55</span> <!-- Текст по центру полосы -->
+                <span class="bar-text">Уровень: 55</span>
             </div>
             <div class="bar-container health-bar">
                 <div class="bar-fill" style="width: 60%;"></div>
-                <span class="bar-text">Здоровье: 150/280</span> <!-- Текст по центру полосы -->
+                <span class="bar-text">Здоровье: 150/280</span>
             </div>
             <p>Сила: <span>150</span></p>
             <p>Защита: <span>200</span></p>
@@ -40,9 +40,10 @@
             </div>
             <img src="./img/main-char.jpg" alt="main-char" class="main-char">
             <img src="./img/dragon.jpg" alt="dragon" class="dragon">
-            <img src="./img/chimera.jpg" alt="chimera" class="dragon">
-            <img src="./img/ouroboros.jpg" alt="ouroboros" class="dragon">
-            
+            <img src="./img/ouroboros.jpg" alt="ouroboros" class="ouroboros">
+            <img src="./img/chimera.jpg" alt="chimera" class="chimera">
+
+
         </div>
 
         <div class="actions">
@@ -53,9 +54,9 @@
 
         <div class="location">
             <p>Текущая локация: <span class="location-name">Деревня</span></p>
-            <button class="location-button">Идти в лес</button>
-            <button class="location-button">Идти в подземелье</button>
-            <button class="location-button">Вернуться в деревню</button>
+            <button class="location-button" onclick="changeLocation('forest')">Идти в лес</button>
+            <button class="location-button" onclick="changeLocation('dungeon')">Идти в подземелье</button>
+            <button class="location-button" onclick="changeLocation('village')">Вернуться в деревню</button>
         </div>
 
         <div class="log">
