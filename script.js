@@ -48,7 +48,7 @@ const enemies = {
         experience: 30,
     },
     ouroboros: {
-        name: "Уроборос",
+        name: "ouroboros",
         health: 200,
         strength: 60,
         defense: 40,
