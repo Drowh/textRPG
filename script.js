@@ -205,13 +205,13 @@ const musicIcon = document.getElementById('music-icon');
 
 function playMusic() {
     backgroundMusic.play();
-    musicIcon.src = './icons/mute.svg'; 
+    musicIcon.src = './icons/volume.svg'; 
 }
 
 // Функция для остановки музыки
 function stopMusic() {
     backgroundMusic.pause();
-    musicIcon.src = './icons/volume.svg'; 
+    musicIcon.src = './icons/mute.svg'; 
 }
 
 musicToggle.addEventListener('click', () => {
