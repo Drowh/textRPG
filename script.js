@@ -2,11 +2,15 @@ const character = {
     name: "Арнольд",   // Имя персонажа, отображаемое на экране
     health: 100,        // Текущее здоровье персонажа
     maxHealth: 100,    // Максимальное здоровье, которое может быть у персонажа
-    strength: 22,      // Сила, которая будет использоваться для атаки
-    defense: 16,        // Защита, которая уменьшает урон от врагов
+    strength: 32,      // Сила, которая будет использоваться для атаки
+    defense: 26,        // Защита, которая уменьшает урон от врагов
     level: 1,          // Текущий уровень персонажа, начинаем с 1
     experience: 0,    // Начальный опыт персонажа, который он будет зарабатывать в бою
-    inventory: []      // Пустой инвентарь, в который мы будем добавлять предметы
+    inventory: {
+        "Зелье здоровья": 2,
+        "Зелье силы": 2,
+        "Зелье защиты": 2
+    }    
 };
 
 function updateCharacterStats() {
@@ -23,7 +27,7 @@ function updateCharacterStats() {
 // Обновляем интерфейс при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => {
     updateCharacterStats();
-
+    backgroundMusic.play();
 });
 
 
@@ -32,21 +36,21 @@ const enemies = {
     dragon: {
         name: "dragon",
         health: 60,
-        strength: 20,
+        strength: 32,
         defense: 10,
         experience: 20 // Опыт за убийство
     },
     chimera: {
         name: "chimera",
         health: 80,
-        strength: 25,
+        strength: 40,
         defense: 20,
         experience: 30,
     },
     ouroboros: {
-        name: "ouroboros",
+        name: "Уроборос",
         health: 200,
-        strength: 55,
+        strength: 60,
         defense: 40,
         experience: 50,
     },
@@ -90,6 +94,44 @@ function counterAttack(enemy) {
 
     updateCharacterStats();
 }
+
+
+// Обработчик для кнопки "Атаковать"
+document.querySelector(".attack").addEventListener("click", () => {
+    if (currentEnemy) {
+        attackEnemy(currentEnemy);
+    } else {
+        logAction("Сначала выберите локацию с врагом.");
+    }
+});
+
+// Обработчик для кнопки "Защищаться"
+document.querySelector(".defend").addEventListener("click", () => {
+    if (currentEnemy) {
+        defend();
+    } else {
+        logAction("Сначала выберите локацию с врагом.");
+    }
+});
+
+// Функция для защиты персонажа
+function defend() {
+    // Увеличиваем временно защиту на ход
+    const defenseBoost = Math.floor(character.defense * 0.5); // Повышаем защиту на 50%
+    character.defense += defenseBoost;
+
+    logAction(`Вы усилили защиту на ${defenseBoost} на один ход.`);
+
+    // Враг атакует, несмотря на защиту
+    if (currentEnemy) {
+        counterAttack(currentEnemy);
+    }
+
+    // Возвращаем защиту к норме после одного хода
+    character.defense -= defenseBoost;
+    updateCharacterStats();
+}
+
 
 
 // Журнал действий
@@ -153,6 +195,32 @@ function changeLocation(location) {
         attackEnemy(currentEnemy);
     }
 }
+
+
+// АУДИО
+const backgroundMusic = document.getElementById('background-music');
+const musicToggle = document.getElementById('music-toggle');
+const musicIcon = document.getElementById('music-icon');
+
+
+function playMusic() {
+    backgroundMusic.play();
+    musicIcon.src = './icons/mute.svg'; 
+}
+
+// Функция для остановки музыки
+function stopMusic() {
+    backgroundMusic.pause();
+    musicIcon.src = './icons/volume.svg'; 
+}
+
+musicToggle.addEventListener('click', () => {
+    if (backgroundMusic.paused) {
+        playMusic();
+    } else {
+        stopMusic();
+    }
+});
 
 
 

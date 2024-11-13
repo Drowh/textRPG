@@ -24,6 +24,7 @@ body {
     text-align: center;
     box-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
     background-image: url(./img/village.jpg);
+    position: relative;
 }
 
 /* Заголовок игры */
@@ -271,4 +272,29 @@ body {
     font-size: 12px;
     box-shadow: inset 0 0 10px #000;
     text-align: start;
+}
+
+/* аудио */
+#music-controls {
+    z-index: 1000;
+    position: absolute; 
+    top: 10px; 
+    left: 10px;
+    
+}
+
+#music-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#music-icon {
+    width: 40px; 
+    height: 40px;
+    transition: transform 0.2s; 
+}
+
+#music-toggle:hover #music-icon {
+    transform: scale(1.1); 
 }
