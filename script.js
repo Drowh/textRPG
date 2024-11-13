@@ -203,24 +203,31 @@ const musicToggle = document.getElementById('music-toggle');
 const musicIcon = document.getElementById('music-icon');
 
 
-function playMusic() {
-    backgroundMusic.play();
-    musicIcon.src = './icons/volume.svg'; 
+let currentTrack = 1; // Переменная для отслеживания текущего трека
+
+// Функция для переключения треков
+function switchTrack() {
+    currentTrack = currentTrack === 1 ? 2 : 1; // Меняем трек
+    document.getElementById('background-music').src = currentTrack === 1 ? './songs/Adventure.mp3' : './songs/Tam.mp3';
+    backgroundMusic.load(); // Перезагружаем аудио
+    backgroundMusic.play(); // Воспроизводим следующий трек
 }
 
-// Функция для остановки музыки
-function stopMusic() {
-    backgroundMusic.pause();
-    musicIcon.src = './icons/mute.svg'; 
-}
+// Обработчик события окончания трека
+backgroundMusic.addEventListener('ended', switchTrack);
+
 
 musicToggle.addEventListener('click', () => {
     if (backgroundMusic.paused) {
-        playMusic();
+        backgroundMusic.play();
+        musicIcon.src = './icons/volume.svg'; 
     } else {
-        stopMusic();
+        backgroundMusic.pause();
+        musicIcon.src = './icons/mute.svg'; 
     }
 });
+
+
 
 
 
