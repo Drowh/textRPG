@@ -81,8 +81,8 @@ const enemies = {
         name: "chimera",
         health: 80,
         maxHealth: 80,
-        strength: 40,
-        defense: 20,
+        strength: 38,
+        defense: 15,
         experience: 50,
     },
     ouroboros: {
