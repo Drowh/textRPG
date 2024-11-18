@@ -21,29 +21,32 @@
                 <div class="bar-fill" style="width: 60%;"></div>
                 <span class="bar-text">Здоровье: 150/280</span>
             </div>
+            
             <p>Сила: <span>150</span></p>
             <p>Защита: <span>200</span></p>
             <p>Инвентарь:</p>
             <div class="inventory">
                 <div class="item">
                     <img src="./icons/health_potion.png" alt="Зелье здоровья">
-                    <span>Зелье здоровья</span>
+                    <span class="potion">Зелье здоровья</span>
                 </div>
                 <div class="item">
                     <img src="./icons/strength_potion.png" alt="Зелье силы">
-                    <span>Зелье силы</span>
+                    <span class="potion">Зелье силы</span>
                 </div>
                 <div class="item">
                     <img src="./icons/defense_potion.png" alt="Зелье защиты">
-                    <span>Зелье защиты</span>
+                    <span class="potion">Зелье защиты</span>
                 </div>
+            </div>
+            <div class="enemy-health-bar" style="display: none;">
+                <div class="bar-fill"></div>
+                <span class="bar-text">Здоровье: 0/0</span>
             </div>
             <img src="./img/main-char.jpg" alt="main-char" class="main-char">
             <img src="./img/dragon.jpg" alt="dragon" class="dragon">
             <img src="./img/chimera.jpg" alt="chimera" class="chimera">
             <img src="./img/ouroboros.jpg" alt="ouroboros" class="ouroboros">
-
-
         </div>
 
         <div class="actions">
@@ -62,6 +65,17 @@
         <div class="log">
             <p>Вы готовы к бою...</p>
         </div>
+
+
+        
+        <button class="reset-button">Рестарт игры</button>
+        <div class="game-over-modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Вы проиграли!</h2>
+                <button class="restart-button">Перезапустить игру</button>
+            </div>
+        </div>
+        
 
         <audio id="background-music" >
             <source src="./songs/Adventure.mp3" type="audio/mpeg">

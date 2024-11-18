@@ -56,8 +56,10 @@ body {
 }
 
 
-.dragon, .chimera, .ouroboros {
-    display: none; 
+.dragon,
+.chimera,
+.ouroboros {
+    display: none;
     position: absolute;
     width: 75px;
     height: 80px;
@@ -78,10 +80,11 @@ body {
 
 .inventory {
     display: flex;
-    gap: 10px;
-    padding: 10px;
+    padding: 17px;
+    gap: 5px;
     justify-content: center;
     cursor: pointer;
+    min-height: 100px; /* Фиксированная минимальная высота для стабильности интерфейса */
 }
 
 .item {
@@ -92,10 +95,17 @@ body {
     flex-direction: column;
     align-items: center;
     background-color: #333;
-    padding: 10px;
+    padding: 5px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s;
+    position: relative;
+}
+
+.inventory.empty::before {
+    content: "Инвентарь пуст";
+    color: #bbb;
+    font-size: 14px;
 }
 
 .item img {
@@ -119,6 +129,21 @@ body {
     transform: scale(1.05);
 }
 
+.count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.item.highlight {
+    box-shadow: 0 0 10px #00ffea,
+        0 0 10px #00ffea;
+}
+
+
 
 
 /* Бары здоровья и уровня */
@@ -140,6 +165,10 @@ body {
     transition: width 0.5s ease;
 }
 
+.health-bar {
+    width: 190px;
+}
+
 .health-bar .bar-fill {
     background-color: #ff4d4d;
 }
@@ -149,6 +178,46 @@ body {
 }
 
 .bar-container .bar-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    /* Цвет текста */
+    font-weight: bold;
+    font-size: 12px;
+    /* Размер текста */
+    pointer-events: none;
+    /* Игнорировать клики по тексту */
+}
+
+
+.enemy-health-bar {
+    position: absolute;
+    top: 21%;
+    right: 0%;
+    width: 173px;
+    background-color: #444;
+    border-radius: 17px;
+    height: 19px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px #000;
+    display: none;
+}
+
+.enemy-health-bar .bar-fill {
+    height: 100%;
+    background-color: #ff4d4d;
+    width: 100%; /* Полоска начинается с полного здоровья */
+    transition: width 0.5s ease;
+    border-radius: 10px;
+}
+
+.enemy-health-bar .bar-text {
     position: absolute;
     top: 0;
     left: 0;
@@ -274,13 +343,85 @@ body {
     text-align: start;
 }
 
+
+/* Стили для модального окна перезагрузка */
+.game-over-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #2d2d2d;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+}
+
+.modal-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.restart-button {
+    background-color: #00ff99;
+    color: #2d2d2d;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.restart-button:hover {
+    background-color: #2d2d2d;
+    color: #00ff99;
+    border: 2px solid #00ff99;
+}
+
+/* Стили для кнопки сброса игры */
+.reset-button {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    background-color: #1e6549;
+    color: white;
+    padding: 2px;
+    border-radius: 5px;
+    border: solid 2px #00ffea;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1001;
+    width: 57px;
+}
+
+.reset-button:hover {
+    background-color: #ff2222;
+}
+
+
+
+
+
+
 /* аудио */
 #music-controls {
     z-index: 1000;
-    position: absolute; 
-    top: 10px; 
+    position: absolute;
+    top: 10px;
     left: 10px;
-    
+
 }
 
 #music-toggle {
@@ -290,11 +431,11 @@ body {
 }
 
 #music-icon {
-    width: 40px; 
+    width: 40px;
     height: 40px;
-    transition: transform 0.2s; 
+    transition: transform 0.2s;
 }
 
 #music-toggle:hover #music-icon {
-    transform: scale(1.1); 
+    transform: scale(1.1);
 }
