@@ -61,9 +61,11 @@ function updateCharacterStats() {
 
 // Обновляем интерфейс при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => {
-    updateCharacterStats();
     backgroundMusic.play();
+    loadGameState();
+    updateCharacterStats();
     updateInventoryUI();
+    
 });
 
 
@@ -81,8 +83,8 @@ const enemies = {
         name: "chimera",
         health: 80,
         maxHealth: 80,
-        strength: 38,
-        defense: 15,
+        strength: 36,
+        defense: 14,
         experience: 50,
     },
     ouroboros: {
@@ -91,7 +93,7 @@ const enemies = {
         maxHealth: 200,
         strength: 60,
         defense: 40,
-        experience: 60,
+        experience: 80,
     },
 }
 
@@ -132,6 +134,9 @@ function attackEnemy(enemy) {
         logAction(`${enemy.name} побеждён!`);
         character.gainExperience(enemy.experience); // Получаем опыт за победу
 
+        addRandomItemToInventory(); // Добавляем случайный предмет в инвентарь
+
+
         // Сброс врага после победы
         currentEnemy = null; // Очищаем текущего врага
         enemy.health = 0; // Устанавливаем здоровье врага в 0, чтобы не допустить повторных атак
@@ -151,6 +156,7 @@ function attackEnemy(enemy) {
 
     updateEffects();
     updateCharacterStats();
+    saveGameState(); // Сохраняем прогресс после атаки
 }
 
 // Функция для ответного удара врага
@@ -212,30 +218,47 @@ function defend() {
 // Отображение количества зелий в интерфейсе
 function updateInventoryUI() {
     const inventoryContainer = document.querySelector('.inventory');
+    inventoryContainer.innerHTML = ''; // Полностью очищаем инвентарь в DOM
 
-    // Очищаем инвентарь от предыдущих элементов
-    inventoryContainer.classList.toggle('empty', Object.keys(character.inventory).length === 0);
+    // Перебираем все предметы в инвентаре персонажа
+    for (const [itemName, itemCount] of Object.entries(character.inventory)) {
+        if (itemCount > 0) {
+            // Создаём новый элемент для предмета
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('item');
 
-    // Находим все элементы инвентаря и обновляем их
-    document.querySelectorAll('.inventory .item').forEach(item => {
-        const itemName = item.querySelector('.potion').textContent.trim(); // Название предмета
-        const itemCount = character.inventory[itemName] || 0; // Количество предметов или 0, если его нет
+            // Добавляем иконку предмета
+            const potionIcons = {
+                "Зелье здоровья": "./icons/health_potion.png",
+                "Зелье силы": "./icons/strength_potion.png",
+                "Зелье защиты": "./icons/defense_potion.png"
+            };
+            
+            const itemIcon = document.createElement('img');
+            itemIcon.src = potionIcons[itemName];
+            itemIcon.alt = itemName;
 
-        // Если количество 0, удаляем элемент из интерфейса
-        if (itemCount === 0) {
-            item.remove();
-        } else {
-            // Удаляем старый счётчик и добавляем новый с актуальным количеством
-            let countElement = item.querySelector('.count');
-            if (!countElement) {
-                countElement = document.createElement('div');
-                countElement.className = 'count';
-                item.appendChild(countElement);
-            }
-            countElement.textContent = itemCount; // Устанавливаем количество предметов
+            // Добавляем текст названия предмета
+            const itemText = document.createElement('span');
+            itemText.classList.add('potion');
+            itemText.textContent = itemName;
+
+            // Добавляем счётчик предметов
+            const itemCountElement = document.createElement('div');
+            itemCountElement.classList.add('count');
+            itemCountElement.textContent = itemCount;
+
+            // Собираем элементы в один блок
+            itemElement.appendChild(itemIcon);
+            itemElement.appendChild(itemText);
+            itemElement.appendChild(itemCountElement);
+
+            // Добавляем предмет в контейнер инвентаря
+            inventoryContainer.appendChild(itemElement);
         }
-    });
+    }
 }
+
 
 // Обработчик для кнопки "Использовать предмет"
 document.querySelector(".use-item").addEventListener("click", () => {
@@ -355,8 +378,21 @@ function removeItemEffect(itemName) {
     updateCharacterStats();
 }
 
+// Добавления случайного предмета за победу над врагом
+function addRandomItemToInventory() {
+    const potions = ["Зелье здоровья", "Зелье силы", "Зелье защиты"];
+    const randomPotion = potions[Math.floor(Math.random() * potions.length)]; // Случайное зелье
 
+    // Добавляем зелье в инвентарь
+    if (character.inventory[randomPotion]) {
+        character.inventory[randomPotion] += 1;
+    } else {
+        character.inventory[randomPotion] = 1;
+    }
 
+    logAction(`Вы получили ${randomPotion}!`);
+    updateInventoryUI(); // Обновляем интерфейс инвентаря
+}
 
 // Переменная для хранения текущего врага
 let currentEnemy = null;
@@ -381,6 +417,11 @@ function changeLocation(location) {
         logAction("Вы находитесь в деревне. Здесь безопасно.");
         currentEnemy = null; // Нет врагов в деревне
         hideEnemyHealthBar(); // Убираем полоску здоровья врага
+
+
+        character.health = character.maxHealth; // Полностью восстанавливаем здоровье
+        logAction("Ваше здоровье восстановлено.");
+        updateCharacterStats(); // Обновляем параметры на экране
     } else if (location === 'forest') {
         gameContainer.style.backgroundImage = 'url(./img/forest.jpg)';
         locationNameSpan.textContent = "Лес"; // Обновляем название локации
@@ -410,10 +451,9 @@ function changeLocation(location) {
         enemyIconElements[currentEnemy.name].style.display = 'block';
         attackEnemy(currentEnemy);
     }
+
+    saveGameState(); // Сохраняем прогресс после смены локации
 }
-
-
-
 
 // Журнал действий
 function logAction(message) {
@@ -430,8 +470,6 @@ function logAction(message) {
     // Автоматически прокручиваем лог вниз, чтобы видеть последние действия
     logContainer.scrollTop = logContainer.scrollHeight;
 }
-
-
 
 // Показываем окно "Вы проиграли"
 function showGameOverModal() {
@@ -458,6 +496,7 @@ function restartGame() {
         "Зелье силы": 2,
         "Зелье защиты": 2
     };
+    
 
     // Убираем модальное окно
     const gameOverModal = document.querySelector('.game-over-modal');
@@ -466,15 +505,15 @@ function restartGame() {
     // Сбрасываем врагов
     currentEnemy = null;
 
-    // Сбрасываем интерфейс
-    updateCharacterStats();
-    updateInventoryUI();
-    hideEnemyHealthBar();
-
     // Сбрасываем лог и возвращаем персонажа в деревню
     const logContainer = document.querySelector('.log');
     logContainer.innerHTML = '<p>Игра началась заново.</p>';
     changeLocation('village');
+
+    // Сбрасываем интерфейс
+    updateCharacterStats();
+    updateInventoryUI();
+    hideEnemyHealthBar();
 }
 
 
@@ -484,6 +523,7 @@ document.querySelector(".reset-button").addEventListener("click", () => {
     const confirmRestart = confirm("Вы точно хотите перезагрузить игру?");
 
     if (confirmRestart) {
+        localStorage.removeItem('rpgGameState'); // Удаляем сохранения
         restartGame(); 
     }
 });
@@ -493,7 +533,6 @@ document.querySelector(".reset-button").addEventListener("click", () => {
 const backgroundMusic = document.getElementById('background-music');
 const musicToggle = document.getElementById('music-toggle');
 const musicIcon = document.getElementById('music-icon');
-
 
 let currentTrack = 1; // Переменная для отслеживания текущего трека
 
@@ -508,7 +547,6 @@ function switchTrack() {
 // Обработчик события окончания трека
 backgroundMusic.addEventListener('ended', switchTrack);
 
-
 musicToggle.addEventListener('click', () => {
     if (backgroundMusic.paused) {
         backgroundMusic.play();
@@ -518,6 +556,42 @@ musicToggle.addEventListener('click', () => {
         musicIcon.src = './icons/mute.svg';
     }
 });
+
+// Сохранение прогресса в LocalStorage
+function saveGameState() {
+    const gameState = {
+        character: {
+            health: character.health,
+            maxHealth: character.maxHealth,
+            strength: character.strength,
+            defense: character.defense,
+            level: character.level,
+            experience: character.experience,
+            experienceToLevelUp: character.experienceToLevelUp,
+            inventory: character.inventory
+        },
+
+    };
+
+    localStorage.setItem('rpgGameState', JSON.stringify(gameState));
+}
+
+// Восстановление прогресса из LocalStorage
+function loadGameState() {
+    const savedState = localStorage.getItem('rpgGameState');
+    if (!savedState) return; // Если сохранения нет, выходим из функции
+
+    const gameState = JSON.parse(savedState);
+
+    // Восстанавливаем характеристики персонажа
+    Object.assign(character, gameState.character);
+
+
+    logAction("Прогресс игры загружен.");
+    updateCharacterStats();
+    updateInventoryUI();
+}
+
 
 
 
