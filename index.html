@@ -1,98 +1,118 @@
 <!DOCTYPE html>
 <html lang="ru">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Текстовая RPG Игра</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="game-container">
-        <h1 class="game-title">Dragon Combat Legends</h1>
-        <div class="stats">
-            <p>Имя: <span>Арнольд</span></p>
-            <div class="bar-container level-bar">
-                <div class="bar-fill" style="width: 80%;"></div>
-                <span class="bar-text">Уровень: 55</span>
-            </div>
-            <div class="bar-container health-bar">
-                <div class="bar-fill" style="width: 60%;"></div>
-                <span class="bar-text">Здоровье: 150/280</span>
-            </div>
-            
-            <p>Сила: <span>150</span></p>
-            <p>Защита: <span>200</span></p>
-            <p>Инвентарь:</p>
-            <div class="inventory">
-                <div class="item">
-                    <img src="./icons/health_potion.png" alt="Зелье здоровья">
-                    <span class="potion">Зелье здоровья</span>
-                </div>
-                <div class="item">
-                    <img src="./icons/strength_potion.png" alt="Зелье силы">
-                    <span class="potion">Зелье силы</span>
-                </div>
-                <div class="item">
-                    <img src="./icons/defense_potion.png" alt="Зелье защиты">
-                    <span class="potion">Зелье защиты</span>
-                </div>
-            </div>
-            <div class="enemy-health-bar" style="display: none;">
-                <div class="bar-fill"></div>
-                <span class="bar-text">Здоровье: 0/0</span>
-            </div>
-            <img src="./img/main-char.jpg" alt="main-char" class="main-char">
-            <img src="./img/dragon.jpg" alt="dragon" class="dragon">
-            <img src="./img/chimera.jpg" alt="chimera" class="chimera">
-            <img src="./img/ouroboros.jpg" alt="ouroboros" class="ouroboros">
+      <h1 class="game-title">Dragon Combat Legends</h1>
+      <div class="stats">
+        <p>Имя: <span>Арнольд</span></p>
+        <div class="bar-container level-bar">
+          <div class="bar-fill" style="width: 80%"></div>
+          <span class="bar-text">Уровень: 55</span>
+        </div>
+        <div class="bar-container health-bar">
+          <div class="bar-fill" style="width: 60%"></div>
+          <span class="bar-text">Здоровье: 150/280</span>
         </div>
 
-        <div class="actions">
-            <button class="action-button attack">Атаковать</button>
-            <button class="action-button defend">Защищаться</button>
-            <button class="action-button use-item">Использовать предмет</button>
+        <p>Сила: <span>150</span></p>
+        <p>Защита: <span>200</span></p>
+        <p>Инвентарь:</p>
+        <div class="inventory">
+          <div class="item">
+            <img src="./icons/health_potion.png" alt="Зелье здоровья" />
+            <span class="potion">Зелье здоровья</span>
+          </div>
+          <div class="item">
+            <img src="./icons/strength_potion.png" alt="Зелье силы" />
+            <span class="potion">Зелье силы</span>
+          </div>
+          <div class="item">
+            <img src="./icons/defense_potion.png" alt="Зелье защиты" />
+            <span class="potion">Зелье защиты</span>
+          </div>
         </div>
-
-        <div class="location">
-            <p>Текущая локация: <span class="location-name">Деревня</span></p>
-            <button class="location-button" onclick="changeLocation('forest')">Идти в лес</button>
-            <button class="location-button" onclick="changeLocation('dungeon')">Идти в подземелье</button>
-            <button class="location-button" onclick="changeLocation('village')">Вернуться в деревню</button>
+        <div class="enemy-health-bar" style="display: none">
+          <div class="bar-fill"></div>
+          <span class="bar-text">Здоровье: 0/0</span>
         </div>
+        <img
+          src="./img/main-char.jpg"
+          alt="main-char"
+          class="main-char"
+          onerror="this.onerror=null;this.alt='Персонаж';this.style.border='2px dashed red';"
+        />
+        <img
+          src="./img/dragon.jpg"
+          alt="dragon"
+          class="dragon"
+          onerror="this.onerror=null;this.alt='Дракон';this.style.border='2px dashed red';"
+        />
+        <img
+          src="./img/chimera.jpg"
+          alt="chimera"
+          class="chimera"
+          onerror="this.onerror=null;this.alt='Химера';this.style.border='2px dashed red';"
+        />
+        <img
+          src="./img/ouroboros.jpg"
+          alt="ouroboros"
+          class="ouroboros"
+          onerror="this.onerror=null;this.alt='Уроборос';this.style.border='2px dashed red';"
+        />
+      </div>
 
-        <div class="log">
-            <p>Вы готовы к бою...</p>
+      <div class="actions">
+        <button class="action-button attack">Атаковать</button>
+        <button class="action-button defend">Защищаться</button>
+        <button class="action-button use-item">Использовать предмет</button>
+      </div>
+
+      <div class="location">
+        <p>Текущая локация: <span class="location-name">Деревня</span></p>
+        <button class="location-button" id="forest-btn">Идти в лес</button>
+        <button class="location-button" id="dungeon-btn">
+          Идти в подземелье
+        </button>
+        <button class="location-button" id="village-btn">
+          Вернуться в деревню
+        </button>
+      </div>
+
+      <div class="log">
+        <p>Вы готовы к бою...</p>
+      </div>
+
+      <button class="reset-button">Рестарт игры</button>
+      <div class="game-over-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Вы проиграли!</h2>
+          <button class="restart-button">Перезапустить игру</button>
         </div>
+      </div>
 
-
-        
-        <button class="reset-button">Рестарт игры</button>
-        <div class="game-over-modal" style="display: none;">
-            <div class="modal-content">
-                <h2>Вы проиграли!</h2>
-                <button class="restart-button">Перезапустить игру</button>
-            </div>
-        </div>
-        
-
-        <audio id="background-music" >
-            <source src="./songs/Adventure.mp3" type="audio/mpeg">
-            <source src="./songs/Tam.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <div id="music-controls">
-            <button id="music-toggle">
-                <img id="music-icon" src="./icons/volume.svg" alt="Play Music"/>
-            </button>
-        </div>
+      <audio id="background-music" preload="none">
+        <source src="./songs/Adventure.mp3" type="audio/mpeg" />
+        <source src="./songs/Tam.mp3" type="audio/mpeg" />
+        Ваш браузер не поддерживает элемент audio.
+      </audio>
+      <div id="music-controls">
+        <button id="music-toggle">
+          <img id="music-icon" src="./icons/volume.svg" alt="Play Music" />
+        </button>
+        <span
+          id="audio-status"
+          style="display: none; font-size: 12px; color: red"
+        ></span>
+      </div>
     </div>
 
-    
-
-
     <script src="./script.js"></script>
-</body>
-
+  </body>
 </html>
